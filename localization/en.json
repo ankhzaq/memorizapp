@@ -1,0 +1,16 @@
+{
+  "detail": {
+    "form": {
+      "placeholders": {
+        "description": "Description...",
+        "tags": "Add tags to find it in the future...",
+        "value": "Value... (1 by default)"
+      }
+    },
+    "sections": {
+      "quick": "Quick piece",
+      "complete": "Complete piece"
+    },
+    "submitBtn": "Add piece of memory"
+  }
+}
