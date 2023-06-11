@@ -2,15 +2,19 @@
   "detail": {
     "form": {
       "placeholders": {
-        "description": "Description...",
+        "answer": "Answer (piece of information)",
         "tags": "Add tags to find it in the future...",
-        "value": "Value... (1 by default)"
+        "question": "Question to challenge you in the future"
       }
     },
     "sections": {
       "quick": "Quick piece",
       "complete": "Complete piece"
     },
-    "submitBtn": "Add piece of memory"
+    "submitBtn": "Add piece of memory",
+  },
+  "tags": {
+    "newTagPlaceholder": "Add tags to find it...",
+    "add": "Add tag"
   }
 }

@@ -12,9 +12,14 @@ interface Props {
 }
 
 function CustomButton({ disabled = false, onPress, outlined = false, style, text }: Props) {
+
+  const handlePress = () => {
+    if (!disabled && onPress) onPress();
+  }
+
   return (
     <Pressable
-      onPress={!disabled && onPress}
+      onPress={handlePress}
       style={
       classes([style, styles.button, outlined && styles.outlined, disabled && styles.disabled])
       }

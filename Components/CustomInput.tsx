@@ -1,21 +1,21 @@
 import React from "react";
 import { StyleSheet, TextInput } from 'react-native';
 
-interface Props {}
-
 function CustomInput(props: TextInput['props']) {
   return (
-    <TextInput autoCapitalize="none" {...props} style={styles.input} />
+    <TextInput autoCapitalize="none" style={styles.input} {...props} />
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   input: {
+    alignSelf: 'stretch',
     borderRadius: 5,
     borderWidth: 1,
     fontSize: 15,
     fontWidth: 500,
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
   },
 });
 

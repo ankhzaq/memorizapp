@@ -36,8 +36,12 @@ const styles = StyleSheet.create({
     borderColor: black,
     borderWidth: 2,
     color: black,
+    marginRight: 5,
     paddingVertical: 3,
     paddingHorizontal: 5,
+  },
+  tags: {
+    flexDirection: 'row',
   },
   icon: {
     color: black,

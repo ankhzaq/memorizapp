@@ -51,6 +51,11 @@ const Home = () => {
     navigation.navigate(ROUTE_DETAIL);
   }
 
+  const handlerOnPressItem = (item: ItemWithId) => {
+    navigation.navigate(ROUTE_DETAIL, {
+      data: item,
+    });
+  }
 
   return (
     <View style={styles.layout}>
@@ -58,8 +63,12 @@ const Home = () => {
         <CustomButton onPress={() => navigateToDetailScreen()} text="Add piece"/>
       </View>
       {data?.map((item: ItemWithId) => (
-        <View style={styles.card}>
-          <Text style={styles.tag}>{item.tags}</Text>
+        <Pressable onPress={() => handlerOnPressItem(item)} style={styles.card}>
+          <View style={styles.tags}>
+            {item.tags.map((tagItem) => (
+              <Text style={styles.tag}>{tagItem}</Text>
+            ))}
+          </View>
           <Text style={styles.date}>{item.createdAt.split('T')[0]}</Text>
           <View style={styles.iconsCard}>
             <Pressable onPress={() => deleteItemById(item.id)} style={styles.iconWrapper}>
@@ -75,7 +84,7 @@ const Home = () => {
               />
             </Pressable>
           </View>
-        </View>
+        </Pressable>
       ))}
     </View>
   )

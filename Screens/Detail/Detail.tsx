@@ -9,9 +9,10 @@ import CustomInput from '../../Components/CustomInput';
 import { useTranslation } from 'react-i18next';
 import { clearFormValues } from '../../utils/form';
 import { useApiService } from '../../hooks/useApiService';
-import { ROUTE_DETAIL, ROUTE_HOME } from '../../config';
+import { ROUTE_HOME } from '../../config';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigation } from '../../App';
+import Tags from '../../Components/Tags';
 
 const Detail = ({ route }) => {
   const { t } = useTranslation();
@@ -27,18 +28,22 @@ const Detail = ({ route }) => {
   }
 
   const onSubmit = data => {
+    const info = [{
+      answer: data.answer,
+      question: data.question,
+    }]
     const item: Item = {
       createdAt: new Date().toISOString(),
-      description: data.description,
-      tags: data.tags || [],
+      info,
+      tags: JSON.parse(data.tags),
       images: [],
       email: 'unnamed@gmail.com',
       type: section,
       updatedAt: editMode ? new Date().toISOString() : undefined,
-      value: data.value || 1,
     };
 
     const itemCleaned: Item = clearFormValues(item);
+
     addItem(itemCleaned).then(() => {
       navigation.navigate(ROUTE_HOME);
     })
@@ -68,11 +73,9 @@ const Detail = ({ route }) => {
         <Controller
           control={control}
           render={({field: { onChange, onBlur, value }}) => (
-            <CustomInput
-              onBlur={onBlur}
-              onChangeText={value => onChange(value)}
-              placeholder={t('detail:form.placeholders.tags')}
-              value={value}
+            <Tags
+              defaultTags={dataItem?.tags ? dataItem?.tags : value}
+              onChangeTags={(nextValue) => onChange(JSON.stringify(nextValue))}
             />
           )}
           name="tags"
@@ -86,12 +89,12 @@ const Detail = ({ route }) => {
             <CustomInput
               onBlur={onBlur}
               onChangeText={value => onChange(value)}
-              placeholder={t('detail:form.placeholders.value')}
-              value={value}
+              placeholder={t('detail:form.placeholders.question')}
+              defaultValue={dataItem?.info[0].question || ''}
             />
           )}
-          name="value"
-          rules={{ required: false }}
+          name="question"
+          rules={{ required: true }}
         />
       </View>
       <View style={styles.input}>
@@ -102,11 +105,11 @@ const Detail = ({ route }) => {
               onBlur={onBlur}
               onChangeText={value => onChange(value)}
               placeholder={t('detail:form.placeholders.description')}
-              value={value}
+              defaultValue={dataItem?.info[0].answer || ''}
             />
           )}
-          name="description"
-          rules={{ required: false }}
+          name="answer"
+          rules={{ required: true }}
         />
       </View>
       <CustomButton

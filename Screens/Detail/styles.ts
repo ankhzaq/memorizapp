@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles =
   StyleSheet.create({
     input: {
+      width: '100%',
       marginBottom: 10,
     },
     layout: {

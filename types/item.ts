@@ -1,25 +1,20 @@
-interface Clue {
+import { SECTION_COMPLETE, SECTION_QUICK } from '../utils/constants';
+
+interface Info {
   question: string;
   answer: string;
 }
 
 export interface Item {
   createdAt: string;
-  clues?: Clue[];
-  description?: string;
+  info: Info[];
   email: string;
-  isQuickCard: boolean;
   images?: string[];
   tags: string[];
+  type: typeof SECTION_QUICK | typeof SECTION_COMPLETE;
   updatedAt?: string;
-  value?: number,
 }
 
 export interface ItemWithId extends Item {
   id: string;
-}
-
-export interface ItemToShow extends ItemWithId {
-  id: string;
-  count: number;
 }
