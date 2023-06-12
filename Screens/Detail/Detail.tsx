@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from 'react-native';
-import { Item,ItemWithId } from '../../types/item';
+import { Info, Item, ItemWithId } from '../../types/item';
 import CustomButton from '../../Components/CustomButton';
 import styles from './styles';
 import { SECTION_QUICK, SECTION_COMPLETE } from '../../utils/constants';
@@ -14,6 +14,11 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigation } from '../../App';
 import Tags from '../../Components/Tags';
 
+const DEFAULT_INFO = {
+  answer: '',
+  question: ''
+}
+
 const Detail = ({ route }) => {
   const { t } = useTranslation();
   const { addItem } = useApiService();
@@ -21,6 +26,8 @@ const Detail = ({ route }) => {
   const dataItem: ItemWithId = route.params?.data;
   const editMode = Boolean(route.params?.data);
   const [section, setSection] = useState(dataItem?.type || SECTION_QUICK);
+
+  const [infos, setInfos] = useState<Info[]>(editMode ? dataItem.info :[DEFAULT_INFO]);
   const navigation = useNavigation<StackNavigation>();
 
   const onSectionType = (nextSection: typeof SECTION_QUICK | typeof SECTION_COMPLETE) => {
@@ -82,36 +89,40 @@ const Detail = ({ route }) => {
           rules={{ required: true }}
         />
       </View>
-      <View style={styles.input}>
-        <Controller
-          control={control}
-          render={({field: { onChange, onBlur, value }}) => (
-            <CustomInput
-              onBlur={onBlur}
-              onChangeText={value => onChange(value)}
-              placeholder={t('detail:form.placeholders.question')}
-              defaultValue={dataItem?.info[0].question || ''}
+      {infos.map((info: Info) => (
+        <View>
+          <View style={styles.input}>
+            <Controller
+              control={control}
+              render={({field: { onChange, onBlur, value }}) => (
+                <CustomInput
+                  onBlur={onBlur}
+                  onChangeText={value => onChange(value)}
+                  placeholder={t('detail:form.placeholders.question')}
+                  defaultValue={info.question}
+                />
+              )}
+              name="question"
+              rules={{ required: true }}
             />
-          )}
-          name="question"
-          rules={{ required: true }}
-        />
-      </View>
-      <View style={styles.input}>
-        <Controller
-          control={control}
-          render={({field: { onChange, onBlur, value }}) => (
-            <CustomInput
-              onBlur={onBlur}
-              onChangeText={value => onChange(value)}
-              placeholder={t('detail:form.placeholders.description')}
-              defaultValue={dataItem?.info[0].answer || ''}
+          </View>
+          <View style={styles.input}>
+            <Controller
+              control={control}
+              render={({field: { onChange, onBlur, value }}) => (
+                <CustomInput
+                  onBlur={onBlur}
+                  onChangeText={value => onChange(value)}
+                  placeholder={t('detail:form.placeholders.description')}
+                  defaultValue={info.answer}
+                />
+              )}
+              name="answer"
+              rules={{ required: true }}
             />
-          )}
-          name="answer"
-          rules={{ required: true }}
-        />
-      </View>
+          </View>
+        </View>
+      ))}
       <CustomButton
         onPress={handleSubmit(onSubmit)}
         text={t('detail:submitBtn')}

@@ -1,6 +1,6 @@
 import { SECTION_COMPLETE, SECTION_QUICK } from '../utils/constants';
 
-interface Info {
+export interface Info {
   question: string;
   answer: string;
 }
