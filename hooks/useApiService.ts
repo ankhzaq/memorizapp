@@ -30,17 +30,9 @@ export function useApiService() {
   }
 
   const updateItem = (id: string, data: ItemWithId) => {
-    dataRef
+    return dataRef
       .doc(data.id)
-      .update(data)
-      .then(() => {
-        // release keyboard
-        Keyboard.dismiss();
-      })
-      .catch((error) => {
-        // show an alert in case of error
-        alert(error);
-      });
+      .update(data);
   }
 
   return { getItems, addItem, removeItem, updateItem };
