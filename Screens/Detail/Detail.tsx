@@ -21,7 +21,7 @@ const DEFAULT_INFO = {
 
 const Detail = ({ route }) => {
   const { t } = useTranslation();
-  const { addItem } = useApiService();
+  const { addItem, updateItem } = useApiService();
   const { control, register, handleSubmit, watch, formState: { errors } } = useForm();
   const dataItem: ItemWithId = route.params?.data;
   const editMode = Boolean(route.params?.data);
@@ -32,6 +32,26 @@ const Detail = ({ route }) => {
 
   const onSectionType = (nextSection: typeof SECTION_QUICK | typeof SECTION_COMPLETE) => {
     if (section !== nextSection) setSection(nextSection);
+  }
+
+  const updateDataItem = (data) => {
+    const dataCleaned: Item = clearFormValues(data);
+
+    const originalData = route.params.data;
+
+    const dataUpdated = {
+      ...originalData,
+      ...dataCleaned,
+      updatedAt: new Date().toISOString()
+    };
+
+    updateItem(originalData.id, dataUpdated).then(() => {
+      navigation.navigate(ROUTE_HOME);
+
+    })
+      .catch((error) => {
+        console.log('failure - itemUpdated');
+      });
   }
 
   const onSubmit = data => {
@@ -55,7 +75,7 @@ const Detail = ({ route }) => {
       navigation.navigate(ROUTE_HOME);
     })
       .catch((error) => {
-        console.log('failure - itemCleaned');
+        console.log('failure - itemAdded');
       });
   }
 
