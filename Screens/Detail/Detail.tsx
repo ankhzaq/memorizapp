@@ -41,7 +41,8 @@ const Detail = ({ route }) => {
 
     const dataUpdated = {
       ...originalData,
-      ...dataCleaned,
+      info: getInfo(data),
+      tags: JSON.parse(data.tags),
       updatedAt: new Date().toISOString()
     };
 
@@ -54,14 +55,40 @@ const Detail = ({ route }) => {
       });
   }
 
-  const onSubmit = data => {
-    const info = [{
-      answer: data.answer,
-      question: data.question,
-    }]
+  const getInfo = (dataForm) => {
+    return (
+      [{
+        answer: dataForm.answer,
+        question: dataForm.question,
+      }]
+    )
+  }
+
+  const addDataItem = (data) => {
     const item: Item = {
       createdAt: new Date().toISOString(),
-      info,
+      info: getInfo(data),
+      tags: JSON.parse(data.tags),
+      images: [],
+      email: 'unnamed@gmail.com',
+      type: section,
+      updatedAt: editMode ? new Date().toISOString() : undefined,
+    };
+
+    const itemCleaned: Item = clearFormValues(item);
+
+    addItem(itemCleaned).then(() => {
+      navigation.navigate(ROUTE_HOME);
+    })
+      .catch((error) => {
+        console.log('failure - itemAdded');
+      });
+  }
+
+  const onSubmit = data => {
+    const item: Item = {
+      createdAt: new Date().toISOString(),
+      info: getInfo(data),
       tags: JSON.parse(data.tags),
       images: [],
       email: 'unnamed@gmail.com',
