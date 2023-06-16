@@ -86,24 +86,8 @@ const Detail = ({ route }) => {
   }
 
   const onSubmit = data => {
-    const item: Item = {
-      createdAt: new Date().toISOString(),
-      info: getInfo(data),
-      tags: JSON.parse(data.tags),
-      images: [],
-      email: 'unnamed@gmail.com',
-      type: section,
-      updatedAt: editMode ? new Date().toISOString() : undefined,
-    };
-
-    const itemCleaned: Item = clearFormValues(item);
-
-    addItem(itemCleaned).then(() => {
-      navigation.navigate(ROUTE_HOME);
-    })
-      .catch((error) => {
-        console.log('failure - itemAdded');
-      });
+    if (editMode) updateDataItem(data);
+    else addDataItem(data);
   }
 
   return (
