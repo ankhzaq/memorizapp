@@ -26,7 +26,8 @@ function Tags(props: Props) {
   }
 
   const removeTag = (tag: string) => {
-    setTags(tags.filter((tagOption => tagOption !== tag)))
+    const nextTags = tags.filter((tagOption => tagOption !== tag));
+    setTags(nextTags);
   }
 
   useEffect(() => {
@@ -49,7 +50,7 @@ function Tags(props: Props) {
         {tags.map((tag, index) => (
           <View key={`tag-${index}`} style={classes([stylesTag.tag, index > 0 && stylesTag.marginLeftTag])}>
             <Text>{tag}</Text>
-            <Pressable onPress={() => removeTag} style={stylesTag.icon}>
+            <Pressable onPress={() => removeTag(tag)} style={stylesTag.icon}>
               <FontAwesome
                 name="trash"
               />
