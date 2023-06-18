@@ -144,7 +144,7 @@ const Detail = ({ route }) => {
                 <CustomInput
                   onBlur={onBlur}
                   onChangeText={value => onChange(value)}
-                  placeholder={t('detail:form.placeholders.description')}
+                  placeholder={t('detail:form.placeholders.answer')}
                   defaultValue={info.answer}
                 />
               )}
