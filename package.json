@@ -19,6 +19,7 @@
     "eas-cli": "^0.60.0",
     "expo": "^47.0.0",
     "expo-dev-client": "~2.0.1",
+    "expo-file-system": "^15.2.2",
     "expo-image-picker": "~14.0.2",
     "expo-local-authentication": "~13.0.2",
     "expo-permissions": "~14.0.0",
