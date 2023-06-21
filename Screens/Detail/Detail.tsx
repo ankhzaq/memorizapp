@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Controller, useForm } from "react-hook-form";
-import { Text, View } from 'react-native';
+import { Button, Image, Text, View } from 'react-native';
+import * as FileSystem from 'expo-file-system';
 import { Info, Item, ItemWithId } from '../../types/item';
 import CustomButton from '../../Components/CustomButton';
+import * as ImagePicker from 'expo-image-picker';
 import styles from './styles';
 import { SECTION_QUICK, SECTION_COMPLETE } from '../../utils/constants';
 import CustomInput from '../../Components/CustomInput';
@@ -26,6 +28,7 @@ const Detail = ({ route }) => {
   const dataItem: ItemWithId = route.params?.data;
   const editMode = Boolean(route.params?.data);
   const [section, setSection] = useState(dataItem?.type || SECTION_QUICK);
+  const [image, setImage] = useState<undefined | string>();
 
   const [infos, setInfos] = useState<Info[]>(editMode ? dataItem.info :[DEFAULT_INFO]);
   const navigation = useNavigation<StackNavigation>();
@@ -53,6 +56,25 @@ const Detail = ({ route }) => {
       .catch((error) => {
         console.log('failure - itemUpdated');
       });
+  }
+
+  const takeAndUploadPhotoAsync = async () => {
+    // Display the camera to the user and wait for them to take a photo or to cancel
+    // the action
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
+
+    if (result.cancelled) {
+      return;
+    }
+
+    const data64 = await FileSystem.readAsStringAsync(result.assets[0].uri, {
+      encoding: 'base64',
+    })
+
+    setImage(data64);
   }
 
   const getInfo = (dataForm) => {
@@ -89,6 +111,12 @@ const Detail = ({ route }) => {
     if (editMode) updateDataItem(data);
     else addDataItem(data);
   }
+
+  console.log(image && image.substring(0, 10));
+  console.log('image length: ', image.length);
+
+  const encodedBase64 =
+    'iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==';
 
   return (
     <View style={styles.layout}>
@@ -154,6 +182,13 @@ const Detail = ({ route }) => {
           </View>
         </View>
       ))}
+      {image && (
+        <Image
+          style={{ height: 150, width: 150 }}
+          source={{uri: `data:image/png;base64,${image}`}}
+        />
+      )}
+      <Button onPress={takeAndUploadPhotoAsync} title="Upload" />
       <CustomButton
         onPress={handleSubmit(onSubmit)}
         text={t('detail:submitBtn')}
