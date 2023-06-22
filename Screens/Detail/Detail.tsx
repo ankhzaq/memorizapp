@@ -91,7 +91,7 @@ const Detail = ({ route }) => {
       createdAt: new Date().toISOString(),
       info: getInfo(data),
       tags: JSON.parse(data.tags),
-      images: [],
+      images: image ? [] : [image],
       email: 'unnamed@gmail.com',
       type: section,
       updatedAt: editMode ? new Date().toISOString() : undefined,
