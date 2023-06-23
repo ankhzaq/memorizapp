@@ -112,12 +112,6 @@ const Detail = ({ route }) => {
     else addDataItem(data);
   }
 
-  console.log(image && image.substring(0, 10));
-  console.log('image length: ', image.length);
-
-  const encodedBase64 =
-    'iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==';
-
   return (
     <View style={styles.layout}>
       <Text>DETAIL</Text>
