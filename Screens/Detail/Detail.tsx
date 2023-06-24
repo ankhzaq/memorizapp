@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import { Button, Image, Text, View } from 'react-native';
 import * as FileSystem from 'expo-file-system';
@@ -28,7 +28,7 @@ const Detail = ({ route }) => {
   const dataItem: ItemWithId = route.params?.data;
   const editMode = Boolean(route.params?.data);
   const [section, setSection] = useState(dataItem?.type || SECTION_QUICK);
-  const [image, setImage] = useState<undefined | string>();
+  const [image, setImage] = useState<undefined | string>(dataItem?.images && dataItem?.images[0]);
 
   const [infos, setInfos] = useState<Info[]>(editMode ? dataItem.info :[DEFAULT_INFO]);
   const navigation = useNavigation<StackNavigation>();
