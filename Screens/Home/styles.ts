@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { black, green, white } from '../../variables';
+import { black, blue, white } from '../../variables';
 
 const styles = StyleSheet.create({
   addBtn: {
@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   },
   card: {
     alignItems: 'center',
-    backgroundColor: green,
+    backgroundColor: blue,
     borderRadius: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
